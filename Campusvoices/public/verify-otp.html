@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verify OTP | Campus Voices</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+      width: 360px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    h2 {
+      color: #1d2671;
+      margin-bottom: 10px;
+    }
+
+    .timer {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      letter-spacing: 4px;
+      text-align: center;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #1d2671;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #16205a;
+    }
+
+    .msg {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Verify OTP</h2>
+    <p class="timer" id="timer">Time left: 02:00</p>
+
+    <input type="text" id="otp" maxlength="6" placeholder="Enter 6-digit OTP" />
+    <button onclick="verifyOTP()">Verify</button>
+
+    <div id="msg" class="msg"></div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get("email");
+
+    let time = 120;
+    const timerEl = document.getElementById("timer");
+
+    const interval = setInterval(() => {
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `Time left: ${String(min).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+      time--;
+
+      if (time < 0) {
+        clearInterval(interval);
+        timerEl.textContent = "OTP expired. Please login again.";
+      }
+    }, 1000);
+
+    async function verifyOTP() {
+      const otp = document.getElementById("otp").value;
+      const msg = document.getElementById("msg");
+
+      if (!otp) {
+        msg.textContent = "Please enter OTP";
+        msg.className = "msg error";
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/verify-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          msg.textContent = "Login successful!";
+          msg.className = "msg success";
+
+          setTimeout(() => {
+            window.location.href = "student-dashboard.html";
+          }, 1000);
+        } else {
+          msg.textContent = data.message || "Invalid OTP";
+          msg.className = "msg error";
+        }
+      } catch (err) {
+        msg.textContent = "Server error";
+        msg.className = "msg error";
+      }
+    }
+  </script>
+
+</body>
+</html>
