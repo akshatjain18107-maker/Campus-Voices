@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | Campus Voices</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+    }
+
+    header {
+      background: #1d2671;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .content {
+      padding: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Campus Voices – Admin Panel</h1>
+  </header>
+
+  <div class="content">
+  <h2>All Raised Issues</h2>
+  <div id="admin-issue-list"></div>
+</div>
+
+
+  <script>
+  // 🔒 Protect admin dashboard
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "admin-login.html";
+  }
+
+  // 📦 Load issues
+  const issues = JSON.parse(localStorage.getItem("issues")) || [];
+  const list = document.getElementById("admin-issue-list");
+
+  if (issues.length === 0) {
+    list.innerHTML = "<p>No issues raised yet.</p>";
+  } else {
+    issues.forEach(issue => {
+      const div = document.createElement("div");
+      div.style.background = "#fff";
+      div.style.padding = "15px";
+      div.style.marginBottom = "10px";
+      div.style.borderRadius = "8px";
+
+      div.innerHTML = `
+        <h3>${issue.title}</h3>
+        <p><strong>Category:</strong> ${issue.category}</p>
+        <p><strong>Description:</strong> ${issue.desc}</p>
+        <p><strong>Votes:</strong> ${issue.votes}</p>
+        <p><strong>Status:</strong> ${issue.status}</p>
+      `;
+
+      list.appendChild(div);
+    });
+  }
+</script>
+
+
+</body>
+</html>

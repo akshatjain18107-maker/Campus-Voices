@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Student Dashboard | Campus Voices</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <link rel="stylesheet" href="css/dashboard.css?v=2" />
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+      <h2>Campus Voices</h2>
+      <ul>
+        <li onclick="showSection('dashboard')">
+          <i class="fa-solid fa-chart-line"></i> Dashboard
+        </li>
+        <li onclick="showSection('vote')">
+          <i class="fa-solid fa-check-to-slot"></i> Vote on Issues
+        </li>
+        <li onclick="showSection('raise')">
+          <i class="fa-solid fa-plus"></i> Raise Issue
+        </li>
+        <li onclick="showSection('notification')">
+          <i class="fa-solid fa-bell"></i> Notifications
+        </li>
+        <li onclick="goToAdmin()">
+          <i class="fa-solid fa-user-shield"></i> Admin Dashboard
+        </li>
+        <li onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </li>
+      </ul>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT -->
+    <div id="main-content">
+      <div class="section" id="dashboard-section">
+        <div class="topbar">
+          <h1>Student Dashboard</h1>
+          <div class="role-chip">
+            <i class="fa-solid fa-circle-user"></i> Student
+          </div>
+        </div>
+
+        <div class="cards">
+          <div class="card-box">
+            <h3>Total Issues</h3>
+            <p id="total-issues">0</p>
+          </div>
+
+          <div class="card-box">
+            <h3>Pending Issues</h3>
+            <p id="pending-issues">0</p>
+          </div>
+
+          <div class="card-box">
+            <h3>Resolved Issues</h3>
+            <p id="resolved-issues">0</p>
+          </div>
+        </div>
+
+        <div class="section" style="margin-top: 30px">
+          <h3>Recent Issues</h3>
+          <div id="recent-issues"></div>
+        </div>
+
+        <div class="category-card">
+          <h3>Select Your Category</h3>
+          <div class="category-row">
+            <select id="student-category">
+              <option value="">-- Select Category --</option>
+              <option value="Hostel">Hostel</option>
+              <option value="Mess">Mess</option>
+              <option value="Academics">Academics</option>
+              <option value="Infrastructure">Infrastructure</option>
+              <option value="Safety">Safety</option>
+            </select>
+            <button onclick="saveCategory()">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VOTE SECTION -->
+      <div class="section" id="vote-section" style="display: none">
+        <h1>Vote on Issues</h1>
+        <div id="issue-list"></div>
+      </div>
+
+      <!-- RAISE ISSUE SECTION -->
+      <div class="section" id="raise-section" style="display: none">
+        <h1>Raise an Issue</h1>
+
+        <form id="issue-form">
+          <input
+            type="text"
+            id="issue-title"
+            placeholder="Issue title"
+            required
+          />
+
+          <select id="issue-category" required>
+            <option value="">Select Category</option>
+            <option value="Hostel">Hostel</option>
+            <option value="Mess">Mess</option>
+            <option value="Academics">Academics</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Safety">Safety</option>
+          </select>
+
+          <textarea
+            id="issue-desc"
+            placeholder="Describe the issue"
+            required
+          ></textarea>
+
+          <button type="submit">Submit Issue</button>
+        </form>
+      </div>
+
+      <!-- NOTIFICATION SECTION -->
+      <div class="section" id="notification-section" style="display: none">
+        <h1>Notifications</h1>
+        <p>No new notifications</p>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/student-data.js"></script>
+  </body>
+</html>
