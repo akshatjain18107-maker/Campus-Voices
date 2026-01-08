@@ -8,7 +8,8 @@
     <!-- CSS -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
 
     <link rel="stylesheet" href="css/dashboard.css?v=2" />
   </head>
@@ -38,7 +39,6 @@
       </ul>
     </div>
 
-    <!-- MAIN CONTENT -->
     <!-- MAIN CONTENT -->
     <div id="main-content">
       <div class="section" id="dashboard-section">
@@ -72,19 +72,12 @@
         </div>
 
         <div class="category-card">
-          <h3>Select Your Category</h3>
-          <div class="category-row">
-            <select id="student-category">
-              <option value="">-- Select Category --</option>
-              <option value="Hostel">Hostel</option>
-              <option value="Mess">Mess</option>
-              <option value="Academics">Academics</option>
-              <option value="Infrastructure">Infrastructure</option>
-              <option value="Safety">Safety</option>
-            </select>
-            <button onclick="saveCategory()">Save</button>
-          </div>
+          <h3>Your Categories</h3>
+          <div id="selected-categories"></div>
         </div>
+        <button id="change-categories-btn" onclick="confirmChangeCategories()">
+          Change Categories
+        </button>
       </div>
 
       <!-- VOTE SECTION -->

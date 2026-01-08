@@ -1,77 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Admin Login | Campus Voices</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Login | Campus Voices</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
-    body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1d2671, #c33764);
-      font-family: Arial, sans-serif;
-    }
-
-    .card {
-      background: #fff;
-      padding: 30px;
-      width: 320px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 15px 0;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #1d2671;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="card">
-    <h2>Admin Access</h2>
-    <input type="password" id="passkey" placeholder="Enter admin passkey" />
-    <button onclick="checkPasskey()">Enter</button>
-    <div id="msg" class="error"></div>
-  </div>
-
-  <script>
-    function checkPasskey() {
-      const key = document.getElementById("passkey").value;
-      const msg = document.getElementById("msg");
-
-      // 🔐 ADMIN PASSKEY (change if needed)
-      const ADMIN_KEY = "CAMPUS_ADMIN_2026";
-
-      if (key === ADMIN_KEY) {
-        localStorage.setItem("adminLoggedIn", "true");
-        window.location.href = "admin-dashboard.html";
-      } else {
-        msg.textContent = "Invalid passkey";
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #1d2671, #c33764);
+        font-family: Arial, sans-serif;
       }
-    }
-  </script>
 
-</body>
+      .card {
+        background: #fff;
+        padding: 30px;
+        width: 320px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 15px 0;
+        font-size: 14px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background: #1d2671;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Admin Access</h2>
+      <input type="password" id="passkey" placeholder="Enter admin passkey" />
+      <button onclick="checkPasskey()">Enter</button>
+      <div id="msg" class="error"></div>
+    </div>
+
+    <script>
+      function checkPasskey() {
+        const key = document.getElementById("passkey").value;
+        const msg = document.getElementById("msg");
+
+        // 🔐 ADMIN PASSKEY (change if needed)
+        const ADMIN_KEY = "CAMPUS_ADMIN_2026";
+
+        if (key === ADMIN_KEY) {
+          localStorage.setItem("adminLoggedIn", "true");
+          window.location.href = "admin-dashboard.html";
+        } else {
+          msg.textContent = "Invalid passkey";
+        }
+      }
+    </script>
+  </body>
 </html>

@@ -1,26 +1,26 @@
-/* =========================
-   GLOBAL STATE
-========================= */
-let issues = JSON.parse(localStorage.getItem("issues")) || [];
-let studentCategory = localStorage.getItem("studentCategory") || "";
 
-/* =========================
-   NAVIGATION
-========================= */
+let issues = JSON.parse(localStorage.getItem("issues")) || [];
+const currentUserEmail = localStorage.getItem("currentUserEmail");
+
+if (!currentUserEmail) {
+  window.location.href = "login.html";
+}
+
+//    NAVIGATION
+
 function showSection(section) {
   const sections = ["dashboard", "vote", "raise", "notification"];
 
-  sections.forEach(sec => {
+  sections.forEach((sec) => {
     const el = document.getElementById(sec + "-section");
     if (el) el.style.display = "none";
   });
 
   document.getElementById(section + "-section").style.display = "block";
 
-  // active sidebar state
-  document.querySelectorAll("#sidebar ul li").forEach(li =>
-    li.classList.remove("active")
-  );
+  document
+    .querySelectorAll("#sidebar ul li")
+    .forEach((li) => li.classList.remove("active"));
 
   const map = { dashboard: 0, vote: 1, raise: 2, notification: 3 };
   const items = document.querySelectorAll("#sidebar ul li");
@@ -29,6 +29,7 @@ function showSection(section) {
 
 function logout() {
   localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("currentUserEmail");
   window.location.href = "login.html";
 }
 
@@ -36,26 +37,16 @@ function goToAdmin() {
   window.location.href = "admin/admin-login.html";
 }
 
-/* =========================
-   CATEGORY
-========================= */
-function saveCategory() {
-  const select = document.getElementById("student-category");
-  const value = select.value;
-
-  if (!value) {
-    toast("Please select your category");
-    return;
-  }
-
-  studentCategory = value;
-  localStorage.setItem("studentCategory", value);
-  toast("Category saved successfully");
+function confirmChangeCategories() {
+  const ok = confirm(
+    "If you change categories, your previous category preferences will be updated. Continue?"
+  );
+  if (!ok) return;
+  window.location.href = "select-categories.html";
 }
 
-/* =========================
-   RAISE ISSUE
-========================= */
+//   RAISE ISSUE
+
 const form = document.getElementById("issue-form");
 
 if (form) {
@@ -78,7 +69,7 @@ if (form) {
       desc,
       votes: 0,
       status: "Pending",
-      votedBy: []
+      votedBy: [],
     };
 
     issues.push(issue);
@@ -86,34 +77,35 @@ if (form) {
 
     form.reset();
     updateDashboardStats();
-    showSection("vote");
     renderIssues();
+    renderRecentIssues();
+    showSection("vote");
+
     toast("Issue raised successfully");
   });
 }
 
-/* =========================
-   RENDER ISSUES
-========================= */
+//   RENDER ISSUES
+
 function renderIssues() {
   const issueList = document.getElementById("issue-list");
+  if (!issueList) return;
+
   issueList.innerHTML = "";
 
   if (issues.length === 0) {
     issueList.innerHTML = `
       <div class="issue-card">
         <h3>No issues yet</h3>
-        <p>Be the first to raise an issue and start the discussion.</p>
-      </div>
-    `;
+        <p>Be the first to raise an issue.</p>
+      </div>`;
     return;
   }
 
-  // Priority sorting
   issues.sort((a, b) => b.votes - a.votes);
 
-  issues.forEach(issue => {
-    const voted = issue.votedBy.includes("student");
+  issues.forEach((issue) => {
+    const voted = issue.votedBy.includes(currentUserEmail);
 
     const div = document.createElement("div");
     div.className = "issue-card";
@@ -122,13 +114,8 @@ function renderIssues() {
       <h3>${issue.title}</h3>
       <span class="badge ${issue.category}">${issue.category}</span>
       <p>${issue.desc}</p>
-
-      <span class="status ${issue.status}">
-        Status: ${issue.status}
-      </span><br>
-
+      <span class="status ${issue.status}">Status: ${issue.status}</span><br>
       <strong>Votes:</strong> ${issue.votes}<br>
-
       <button ${voted ? "disabled" : ""} onclick="voteIssue(${issue.id})">
         ${voted ? "Voted" : "Vote"}
       </button>
@@ -138,33 +125,39 @@ function renderIssues() {
   });
 }
 
-/* =========================
-   VOTING LOGIC
-========================= */
+//   VOTING LOGIC (EMAIL BASED)
+
 function voteIssue(id) {
-  const issue = issues.find(i => i.id === id);
+  const issue = issues.find((i) => i.id === id);
   if (!issue) return;
 
-  if (!studentCategory) {
-    toast("Please select your category first");
-    showSection("dashboard");
+  const allCategories =
+    JSON.parse(localStorage.getItem("studentCategories")) || {};
+
+  let userCategories = allCategories[currentUserEmail];
+  if (!Array.isArray(userCategories)) userCategories = [];
+
+  if (userCategories.length === 0) {
+    toast("No categories found. Please select again.");
+    window.location.href = "select-categories.html";
     return;
   }
 
-  if (issue.category !== studentCategory) {
-    toast("You can only vote on issues from your category");
+  if (!userCategories.includes(issue.category)) {
+    toast("You cannot vote in this category.");
     return;
   }
 
-  if (issue.votedBy.includes("student")) {
-    toast("You have already voted");
+  if (issue.votedBy.includes(currentUserEmail)) {
+    toast("You have already voted on this issue.");
     return;
   }
 
   issue.votes += 1;
-  issue.votedBy.push("student");
+  issue.votedBy.push(currentUserEmail);
 
   localStorage.setItem("issues", JSON.stringify(issues));
+
   updateDashboardStats();
   renderIssues();
   renderRecentIssues();
@@ -172,26 +165,69 @@ function voteIssue(id) {
   toast("Vote submitted");
 }
 
-/* =========================
-   DASHBOARD STATS
-========================= */
+//   DASHBOARD STATS
+
 function updateDashboardStats() {
   const total = issues.length;
-  const pending = issues.filter(i => i.status === "Pending").length;
-  const resolved = issues.filter(i => i.status === "Resolved").length;
+  const pending = issues.filter((i) => i.status === "Pending").length;
+  const resolved = issues.filter((i) => i.status === "Resolved").length;
 
-  const t = document.getElementById("total-issues");
-  const p = document.getElementById("pending-issues");
-  const r = document.getElementById("resolved-issues");
-
-  if (t) t.innerText = total;
-  if (p) p.innerText = pending;
-  if (r) r.innerText = resolved;
+  if (document.getElementById("total-issues"))
+    document.getElementById("total-issues").innerText = total;
+  if (document.getElementById("pending-issues"))
+    document.getElementById("pending-issues").innerText = pending;
+  if (document.getElementById("resolved-issues"))
+    document.getElementById("resolved-issues").innerText = resolved;
 }
 
-/* =========================
-   TOAST NOTIFICATION
-========================= */
+//   SELECTED CATEGORIES
+
+function renderSelectedCategories() {
+  const box = document.getElementById("selected-categories");
+  if (!box) return;
+
+  const allCategories =
+    JSON.parse(localStorage.getItem("studentCategories")) || {};
+
+  let userCategories = allCategories[currentUserEmail];
+  if (!Array.isArray(userCategories)) userCategories = [];
+
+  if (userCategories.length === 0) {
+    box.innerHTML = "<p>No categories selected</p>";
+    return;
+  }
+
+  box.innerHTML = userCategories
+    .map((cat) => `<span class="badge ${cat}">${cat}</span>`)
+    .join(" ");
+}
+
+//   RECENT ISSUES
+
+function renderRecentIssues() {
+  const box = document.getElementById("recent-issues");
+  if (!box) return;
+
+  const recent = [...issues].slice(-3).reverse();
+  if (recent.length === 0) {
+    box.innerHTML = "<p>No issues yet.</p>";
+    return;
+  }
+
+  box.innerHTML = recent
+    .map(
+      (i) => `
+      <div class="issue-card">
+        <strong>${i.title}</strong>
+        <span class="badge ${i.category}">${i.category}</span>
+        <div>Votes: ${i.votes}</div>
+      </div>`
+    )
+    .join("");
+}
+
+//   TOAST
+
 function toast(msg) {
   const t = document.createElement("div");
   t.className = "toast";
@@ -205,26 +241,9 @@ function toast(msg) {
   }, 2000);
 }
 
-/* =========================
-   INIT
-========================= */
+//   INIT
+
 updateDashboardStats();
 renderIssues();
-function renderRecentIssues(){
-  const box = document.getElementById("recent-issues");
-  if(!box) return;
-
-  const recent = [...issues].slice(-3).reverse();
-  if(recent.length === 0){
-    box.innerHTML = "<p>No issues yet.</p>";
-    return;
-  }
-
-  box.innerHTML = recent.map(i=>`
-    <div class="issue-card">
-      <strong>${i.title}</strong>
-      <span class="badge ${i.category}">${i.category}</span>
-      <div>Votes: ${i.votes}</div>
-    </div>
-  `).join("");
-}
+renderRecentIssues();
+renderSelectedCategories();

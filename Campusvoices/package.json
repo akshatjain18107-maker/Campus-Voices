@@ -1,14 +1,14 @@
 {
   "name": "otp-login-system",
   "version": "1.0.0",
-  "description": "",
+  "description": "Campus Voices OTP-based authentication backend using Node.js and Express",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Campus Voices Team",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

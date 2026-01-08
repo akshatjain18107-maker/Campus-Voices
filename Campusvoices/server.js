@@ -9,16 +9,15 @@ app.use(cors());
 app.use(express.json());
 
 // TEMP storage for OTPs
-const otpStore = {}; 
-// format: { email: { otp, expiresAt } }
+const otpStore = {};
 
 // Email transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "akshatjain18107@gmail.com",      // 👈 change this
-    pass: "vyqveurpbnzxhnot"          // 👈 change this
-  }
+    user: "campusvoices2026@gmail.com", 
+    pass: "hnxtlyvedysjuiwo", 
+  },
 });
 
 // Generate OTP
@@ -41,10 +40,10 @@ app.post("/send-otp", async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: "OTP Login <akshatjain18107@gmail.com>",
+      from: "OTP Login <campusvoices2026@gmail.com>",
       to: email,
       subject: "Your OTP Code",
-      text: `Your OTP is ${otp}. It is valid for 2 minutes.`
+      text: `Your OTP is ${otp}. It is valid for 2 minutes.`,
     });
 
     res.json({ message: "OTP sent successfully" });
