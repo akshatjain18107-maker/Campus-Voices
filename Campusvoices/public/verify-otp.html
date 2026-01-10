@@ -150,8 +150,10 @@
               if (!cats || cats.length === 0) {
                 window.location.href = "select-categories.html";
               } else {
+                // STEP 1: current user identity
                 localStorage.setItem("currentUserEmail", email);
 
+                // existing redirect (as-is)
                 window.location.href = "student-dashboard.html";
               }
             }, 1000);
