@@ -1,4 +1,6 @@
-
+/* =========================
+   GLOBAL STATE
+========================= */
 let issues = JSON.parse(localStorage.getItem("issues")) || [];
 const currentUserEmail = localStorage.getItem("currentUserEmail");
 
@@ -6,8 +8,9 @@ if (!currentUserEmail) {
   window.location.href = "login.html";
 }
 
-//    NAVIGATION
-
+/* =========================
+   NAVIGATION
+========================= */
 function showSection(section) {
   const sections = ["dashboard", "vote", "raise", "notification"];
 
@@ -45,8 +48,9 @@ function confirmChangeCategories() {
   window.location.href = "select-categories.html";
 }
 
-//   RAISE ISSUE
-
+/* =========================
+   RAISE ISSUE
+========================= */
 const form = document.getElementById("issue-form");
 
 if (form) {
@@ -85,8 +89,9 @@ if (form) {
   });
 }
 
-//   RENDER ISSUES
-
+/* =========================
+   RENDER ISSUES
+========================= */
 function renderIssues() {
   const issueList = document.getElementById("issue-list");
   if (!issueList) return;
@@ -125,8 +130,9 @@ function renderIssues() {
   });
 }
 
-//   VOTING LOGIC (EMAIL BASED)
-
+/* =========================
+   VOTING LOGIC (EMAIL BASED)
+========================= */
 function voteIssue(id) {
   const issue = issues.find((i) => i.id === id);
   if (!issue) return;
@@ -165,8 +171,9 @@ function voteIssue(id) {
   toast("Vote submitted");
 }
 
-//   DASHBOARD STATS
-
+/* =========================
+   DASHBOARD STATS
+========================= */
 function updateDashboardStats() {
   const total = issues.length;
   const pending = issues.filter((i) => i.status === "Pending").length;
@@ -180,8 +187,9 @@ function updateDashboardStats() {
     document.getElementById("resolved-issues").innerText = resolved;
 }
 
-//   SELECTED CATEGORIES
-
+/* =========================
+   SELECTED CATEGORIES (FIX)
+========================= */
 function renderSelectedCategories() {
   const box = document.getElementById("selected-categories");
   if (!box) return;
@@ -202,8 +210,9 @@ function renderSelectedCategories() {
     .join(" ");
 }
 
-//   RECENT ISSUES
-
+/* =========================
+   RECENT ISSUES
+========================= */
 function renderRecentIssues() {
   const box = document.getElementById("recent-issues");
   if (!box) return;
@@ -226,8 +235,9 @@ function renderRecentIssues() {
     .join("");
 }
 
-//   TOAST
-
+/* =========================
+   TOAST
+========================= */
 function toast(msg) {
   const t = document.createElement("div");
   t.className = "toast";
@@ -241,8 +251,9 @@ function toast(msg) {
   }, 2000);
 }
 
-//   INIT
-
+/* =========================
+   INIT
+========================= */
 updateDashboardStats();
 renderIssues();
 renderRecentIssues();
