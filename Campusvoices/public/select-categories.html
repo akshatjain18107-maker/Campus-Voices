@@ -69,7 +69,6 @@
           return;
         }
 
-        // 🔑 STEP 2.1: current user email
         const email = localStorage.getItem("currentUserEmail");
         if (!email) {
           alert("Session expired. Please login again.");
@@ -77,23 +76,18 @@
           return;
         }
 
-        // STEP 2.2: selected categories
         const selected = [...checked].map((c) => c.value);
 
-        // STEP 2.3: load existing category map
         const allCategories =
           JSON.parse(localStorage.getItem("studentCategories")) || {};
 
-        // STEP 2.4: save categories for THIS email only
         allCategories[email] = selected;
 
-        // STEP 2.5: store back
         localStorage.setItem(
           "studentCategories",
           JSON.stringify(allCategories)
         );
 
-        // redirect to dashboard
         window.location.href = "student-dashboard.html";
       }
     </script>
