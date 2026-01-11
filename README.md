@@ -82,3 +82,109 @@ Overall, the solution bridges the gap between student concerns and institutional
 - Anonymous issue reporting
 - Notification system (Email / In-App)
 - Multi-college support
+
+### Round - 2 :- 
+
+## Proposed Solution
+
+**Campus Voices** is a web-based platform that enables students to:
+- Log in securely using **Email + OTP authentication**
+- Select one or more **categories of concern**
+- Raise campus-related issues
+- Vote on issues within their selected categories
+- View issue priority based on **votes and category importance**
+
+### Safety-First Approach
+- **Safety-related issues are always prioritized at the top**, regardless of vote count
+- Safety issues are visually highlighted for immediate attention
+- This ensures critical issues are never ignored
+
+An **Admin Dashboard** allows administrators to:
+- View all raised issues
+- Resolve, reopen, or delete issues
+- Automatically see safety issues prioritized
+
+---
+
+## System Architecture (High Level)
+
+- **Frontend:** HTML, CSS, JavaScript  
+- **Authentication:** Email + OTP (Nodemailer)  
+- **Storage (Prototype):** Browser LocalStorage  
+- **User Roles:** Student & Admin  
+
+
+---
+
+##  Prototype Details
+
+- Fully functional frontend prototype
+- Email-based OTP authentication
+- Category-based voting and issue management
+- Data stored using LocalStorage (for demo & prototype purposes)
+- Designed to be easily extendable to backend + database
+
+---
+
+##  Security & Data Integrity
+
+- OTP-based email authentication
+- Email treated as unique user identity
+- Category-based voting restriction
+- One vote per issue per user
+- Admin access protected using passkey
+- Safety issues given highest priority
+
+---
+
+##  Key Features Summary
+
+- ✔ Secure Email + OTP Login  
+- ✔ Multi-category selection per user  
+- ✔ Category-restricted voting  
+- ✔ Safety issues always prioritized  
+- ✔ Student Dashboard & Admin Dashboard  
+- ✔ Real-time issue status updates  
+- ✔ Clean, intuitive, and responsive UI  
+
+---
+
+##  Research Work & References
+
+- OTP Authentication Best Practices  
+  - Google Authentication Guidelines  
+- Issue Prioritization Models  
+  - ITIL Incident Priority Framework  
+- UX Design for Civic Engagement Platforms  
+- Nodemailer Documentation  
+  - https://nodemailer.com/
+
+---
+
+##  Future Enhancements
+
+- Backend integration (Node.js + Database)
+- Real-time notifications for students and admins
+- Analytics dashboard for issue trends
+- Deployment on cloud platforms
+- Mobile-friendly Progressive Web App (PWA)
+- Role-based admin hierarchy
+
+---
+
+##  Additional Notes
+
+- The project focuses on **problem-solving, system design, and data integrity**
+- Safety-first prioritization makes it suitable for real-world campus deployment
+- Built as a scalable prototype, ready for backend integration
+
+---
+
+##  Team / Developer
+
+**Project Name:** Campus Voices  
+**Developed By:** *(Add your name / team name)*  
+**Role:** Full Stack (Prototype Development)
+
+---
+
