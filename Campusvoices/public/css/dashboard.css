@@ -1,6 +1,4 @@
-/* =========================
-   THEME VARIABLES
-========================= */
+
 :root {
   --primary: #1d2671;
   --primary-dark: #16205a;
@@ -13,9 +11,6 @@
   --warning: #ed6c02;
 }
 
-/* =========================
-   GLOBAL RESET
-========================= */
 * {
   margin: 0;
   padding: 0;
@@ -30,9 +25,6 @@ body {
   color: var(--text);
 }
 
-/* =========================
-   SIDEBAR
-========================= */
 #sidebar {
   width: 240px;
   background: linear-gradient(180deg, var(--primary), var(--primary-dark));
@@ -72,18 +64,12 @@ body {
   font-weight: 600;
 }
 
-/* =========================
-   MAIN CONTENT
-========================= */
 #main-content {
   flex: 1;
   padding: 35px;
   overflow-y: auto;
 }
 
-/* =========================
-   TOP BAR
-========================= */
 .topbar {
   background: #fff;
   padding: 15px 25px;
@@ -99,9 +85,6 @@ body {
   color: var(--primary);
 }
 
-/* =========================
-   DASHBOARD CARDS
-========================= */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -132,9 +115,6 @@ body {
   color: var(--primary);
 }
 
-/* =========================
-   FORMS (Raise Issue)
-========================= */
 form {
   max-width: 420px;
 }
@@ -170,9 +150,6 @@ form button:active {
   transform: scale(0.98);
 }
 
-/* =========================
-   ISSUE CARDS
-========================= */
 .issue-card {
   background: #fff;
   padding: 18px;
@@ -213,9 +190,6 @@ form button:active {
   cursor: pointer;
 }
 
-/* =========================
-   CATEGORY BADGES
-========================= */
 .badge {
   padding: 4px 10px;
   border-radius: 999px;
@@ -239,9 +213,6 @@ form button:active {
   background: #ef5350;
 }
 
-/* =========================
-   STATUS COLORS
-========================= */
 .status.Pending {
   color: var(--warning);
   font-weight: 600;
@@ -252,9 +223,6 @@ form button:active {
   font-weight: 600;
 }
 
-/* =========================
-   TOAST NOTIFICATION
-========================= */
 .toast {
   position: fixed;
   bottom: 20px;
